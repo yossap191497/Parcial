@@ -1,0 +1,60 @@
+plsql.execute <<-SQL
+ -- CREACION TABLESPACE SIN PUNTO Y COMA
+ -- EJEMPLO CREATE TABLESPACE ...
+ CREATE TABLESPACE mid_term DATAFILE 'yerson_ossa.DBF' SIZE 35M ONLINE
+SQL
+
+plsql.execute <<-SQL
+ -- CREACION PERFIL SIN PUNTO Y COMA
+ -- EJEMPLO CREATE PROFILE ...
+ CREATE PROFILE examen LIMIT 
+    IDLE_TIME 15
+    FAILED_LOGIN_ATTEMPTS 1
+SQL
+
+plsql.execute <<-SQL
+ -- CREACION USUARIO SIN PUNTO Y COMA
+ -- EJEMPLO CREATE USER
+ CREATE USER ejercicios 
+	IDENTIFIED BY ejercicios
+	DEFAULT TABLESPACE mid_term 
+	QUOTA UNLIMITED ON mid_term
+	PROFILE examen;
+
+GRANT CONNECT,DBA TO ejercicios
+SQL
+
+plsql(:data).execute <<-SQL
+ -- CREACION VISTA 1 SIN PUNTO Y COMA
+ -- EJEMPLO CREATE VIEW ..
+CREATE OR REPLACE VIEW view_1 AS 
+SELECT S.ID as salesman_id, S.NAME as salesman_name, C.ID as customer_id,C.NAME as customer_name
+FROM SALESMAN S
+INNER JOIN CUSTOMERS C ON S.ID = C.SALESMAN_ID
+SQL
+
+plsql(:data).execute <<-SQL
+ -- CREACION VISTA 2 SIN PUNTO Y COMA
+ -- EJEMPLO CREATE VIEW ...
+SQL
+
+plsql(:data).execute <<-SQL
+ -- CREACION VISTA 3 SIN PUNTO Y COMA
+ -- EJEMPLO CREATE VIEW ...
+ CREATE OR REPLACE VIEW view_3 AS 
+SELECT  C.ID as customer_id,C.NAME as customer_name,S.ID as salesman_id, S.NAME as salesman_name
+FROM  CUSTOMERS C
+LEFT  JOIN SALESMAN S   ON C.SALESMAN_ID =S.ID
+where C.GRADE < 300
+order by C.ID 
+SQL
+
+plsql(:data).execute <<-SQL
+ -- CREACION VISTA 4 SIN PUNTO Y COMA
+ -- EJEMPLO CREATE VIEW ...
+ CREATE OR REPLACE VIEW view_4 AS 
+SELECT S.ID as salesman_id, S.NAME as salesman_name, C.ID as customer_id,C.NAME as customer_name
+FROM  SALESMAN S
+Full outer JOIN CUSTOMERS C  ON C.SALESMAN_ID =S.ID
+order by S.ID 
+SQL
